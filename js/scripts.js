@@ -1,9 +1,10 @@
 const search = document.getElementsByClassName("search-container");
 const gallery = document.querySelector(".gallery");
-let employeeList = [];
 const body = document.body;
+let employeeList = [];
 
 
+// Fetches employees from API and displays them
 fetch("https://randomuser.me/api/?results=12&nat=us&inc=name,picture,email,location,phone,dob")
     .then(response => response.json())
     .then(data => {
@@ -13,6 +14,7 @@ fetch("https://randomuser.me/api/?results=12&nat=us&inc=name,picture,email,locat
     });
 
 
+// This function creates a card for each employee generated from the API
 function generateCard(data) {
     data.map((person, id) => {
         const html = `
@@ -32,21 +34,21 @@ function generateCard(data) {
     });
 };
 
+// Shows modal for the employee that is clicked on
 body.addEventListener("click", e => {
-    if (e.target.className !== "card") {
         let card = e.target.closest('.card');
         let id = card.getAttribute("data-index");
         generateModal(id);
-    } else {
-        let card = e.target;
-        let id = card.getAttribute("data-index");
-        generateModal(id);
-    }
 });
 
+// Adds HTML to generate the modal for the employee that is clicked on
 function generateModal(id) {
     let employee = employeeList[id];
-    console.log(employee);
+    const birthday = new Date(employee.dob.date);
+    const day = birthday.getDate();
+    const month = birthday.getMonth() + 1;
+    const year = birthday.getFullYear();
+
     const html = `
         <div class="modal-container">
             <div class="modal">
@@ -59,11 +61,18 @@ function generateModal(id) {
                     <hr>
                     <p class="modal-text">${employee.phone}</p>
                     <p class="modal-text">${employee.location.street.number} ${employee.location.street.name}, ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>
-                    <p class="modal-text">Birthday: ${employee.dob.date}</p>
+                    <p class="modal-text">Birthday: ${month}/${day}/${year}</p>
                 </div>
             </div>
         </div>
         `;
-        
-        gallery.insertAdjacentHTML("beforeend", html);
+
+    gallery.insertAdjacentHTML("beforeend", html);
+
+    // Closes the modal when the user clicks the close button
+    const modalClose = document.getElementById("modal-close-btn");
+    const modal = document.querySelector(".modal-container");
+    modalClose.addEventListener("click", () => {
+        modal.remove();
+    });
 };
