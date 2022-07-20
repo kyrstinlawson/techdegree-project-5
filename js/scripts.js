@@ -1,4 +1,4 @@
-const search = document.getElementsByClassName("search-container");
+const search = document.querySelector(".search-container");
 const gallery = document.querySelector(".gallery");
 const body = document.body;
 let employeeList = [];
@@ -13,8 +13,14 @@ fetch("https://randomuser.me/api/?results=12&nat=us&inc=name,picture,email,locat
         generateCard(employeeList)
     });
 
+const searchHTML = `
+    <form action="#" method="get">
+        <input type="search" id="search-input" class="search-input" placeholder="Search...">
+        <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+    </form>`;
+search.insertAdjacentHTML("beforeend", searchHTML);
 
-// This function creates a card for each employee generated from the API
+    // This function creates a card for each employee generated from the API
 function generateCard(data) {
     data.map((person, id) => {
         const html = `
