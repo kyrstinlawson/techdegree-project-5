@@ -13,6 +13,7 @@ fetch("https://randomuser.me/api/?results=12&nat=us&inc=name,picture,email,locat
         generateCard(employeeList)
     });
 
+// Creates search bar
 const searchHTML = `
     <form action="#" method="get">
         <input type="search" id="search-input" class="search-input" placeholder="Search...">
@@ -20,8 +21,24 @@ const searchHTML = `
     </form>`;
 search.insertAdjacentHTML("beforeend", searchHTML);
 
-    // This function creates a card for each employee generated from the API
+const searchInput = document.getElementById("search-input");
+function searchEmployees(input, data) {
+    const employeeMatch = [];
+    data.filter( person => {
+        if ((person.name.first.toLowerCase().includes(searchInput.value.toLowerCase())) || (person.name.last.toLowerCase().includes(searchInput.value.toLowerCase()))) {
+            employeeMatch.push(person);
+        }
+    });
+    generateCard(employeeMatch);
+}
+
+search.addEventListener("keyup", () => {
+    searchEmployees(searchInput, employeeList);
+});
+
+// This function creates a card for each employee generated from the API
 function generateCard(data) {
+    gallery.innerHTML = "";
     data.map((person, id) => {
         const html = `
             <div class="card" data-index=${id}>
