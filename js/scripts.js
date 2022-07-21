@@ -59,9 +59,11 @@ function generateCard(data) {
 
 // Shows modal for the employee that is clicked on
 body.addEventListener("click", e => {
-        let card = e.target.closest('.card');
-        let id = card.getAttribute("data-index");
-        generateModal(id);
+        if (e.target.closest(".card")) {
+            let card = e.target.closest(".card");
+            let id = card.getAttribute("data-index");
+            generateModal(id);
+        }
 });
 
 // Adds HTML to generate the modal for the employee that is clicked on
@@ -87,6 +89,10 @@ function generateModal(id) {
                     <p class="modal-text">Birthday: ${month}/${day}/${year}</p>
                 </div>
             </div>
+            <div class="modal-btn-container">
+                <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+                <button type="button" id="modal-next" class="modal-next btn">Next</button>
+            </div>
         </div>
         `;
 
@@ -98,4 +104,7 @@ function generateModal(id) {
     modalClose.addEventListener("click", () => {
         modal.remove();
     });
+
 };
+
+
