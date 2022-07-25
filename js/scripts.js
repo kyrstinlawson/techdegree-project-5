@@ -105,6 +105,18 @@ function generateModal(id) {
         modal.remove();
     });
 
+    // Makes it so next button in modal goes to next employee
+    const nextBtn = document.getElementById("modal-next");
+    nextBtn.addEventListener("click", () => {
+        console.log(id);
+        modal.remove();
+        id++
+        if (id < employeeList.length) {
+            generateModal(id);
+        } else {
+            generateModal(0);
+        }
+    });
 };
 
 
