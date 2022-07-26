@@ -105,16 +105,27 @@ function generateModal(id) {
         modal.remove();
     });
 
-    // Makes it so next button in modal goes to next employee
+    // When next button in modal is clicked it goes to next employee
     const nextBtn = document.getElementById("modal-next");
     nextBtn.addEventListener("click", () => {
-        console.log(id);
         modal.remove();
-        id++
+        id++;
         if (id < employeeList.length) {
             generateModal(id);
         } else {
             generateModal(0);
+        }
+    });
+
+    // When previous button in modal is clicked it goes to next employee
+    const prevBtn = document.getElementById("modal-prev");
+    prevBtn.addEventListener("click", () => {
+        modal.remove();
+        id--;
+        if (id < 0) {
+            generateModal(11);
+        } else {
+            generateModal(id);
         }
     });
 };
